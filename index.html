@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Game Hub Home</title>
+  <title>Game Hub</title>
   <style>
     /* Global Styles */
     body, html {
@@ -19,8 +19,8 @@
       align-items: center;
     }
 
-    /* Home Screen Container */
-    #homeContainer {
+    /* Shared Container Styles */
+    .container {
       background: rgba(0, 0, 0, 0.8);
       padding: 30px;
       border-radius: 10px;
@@ -49,6 +49,44 @@
       margin-bottom: 20px;
     }
 
+    /* Login Page Styles */
+    .password-input {
+      width: 100%;
+      max-width: 300px;
+      padding: 10px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      outline: none;
+      background-color: #1e1e1e;
+      color: #ffffff;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    .password-input:focus {
+      outline: none;
+      box-shadow: 0 2px 10px rgba(0, 123, 255, 0.5);
+    }
+
+    .submit-btn {
+      background-color: #007bff;
+      border: none;
+      color: white;
+      font-size: 16px;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .submit-btn:hover {
+      background-color: #0056b3;
+    }
+
+    /* Home Page Styles */
     .game-hub-list {
       width: 100%;
       max-width: 400px;
@@ -92,8 +130,15 @@
   </style>
 </head>
 <body>
-  <!-- Home Screen -->
-  <div id="homeContainer">
+  <!-- Login Page -->
+  <div id="passwordContainer" class="container">
+    <h1>Enter the Password</h1>
+    <input type="password" id="passwordInput" class="password-input" placeholder="Enter password" />
+    <button class="submit-btn" onclick="checkPassword()">Submit</button>
+  </div>
+
+  <!-- Home Page -->
+  <div id="homeContainer" class="container" style="display: none;">
     <h1>Welcome to Game Hub</h1>
     <ul class="game-hub-list">
       <li><a href="#" class="hub-link" onclick="openHub('https://edu.defdc.com')">Educational Hub</a></li>
@@ -107,9 +152,23 @@
   </div>
 
   <script>
+    const correctPassword = '12345'; // Set your correct password here
+    const passwordInput = document.getElementById('passwordInput');
+    const passwordContainer = document.getElementById('passwordContainer');
     const homeContainer = document.getElementById('homeContainer');
     const hubContainer = document.getElementById('hubContainer');
     const hubIframe = document.getElementById('hubIframe');
+
+    // Function to check the password
+    function checkPassword() {
+      const enteredPassword = passwordInput.value;
+      if (enteredPassword === correctPassword) {
+        passwordContainer.style.display = 'none'; // Hide login page
+        homeContainer.style.display = 'block'; // Show home page
+      } else {
+        alert('Incorrect password. Please try again.');
+      }
+    }
 
     // Function to open the hub in a fullscreen iframe
     function openHub(url) {
