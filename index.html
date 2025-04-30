@@ -97,11 +97,23 @@
       height: 100%;
       border: none;
     }
+
+    /* Circular Logo */
+    .circular-logo {
+      width: 100px; /* Adjust size as needed */
+      height: 100px;
+      border-radius: 50%;
+      display: block;
+      margin: 0 auto 20px auto; /* Center the logo and add spacing */
+    }
   </style>
 </head>
 <body>
   <!-- Password Screen -->
   <div id="passwordContainer">
+    <!-- Circular Logo -->
+    <img src="path-to-your-logo.jpg" alt="Logo" class="circular-logo">
+
     <h1>Enter the Password</h1>
     <input type="password" id="passwordInput" class="password-input" placeholder="Enter password" />
     <button class="submit-btn" onclick="checkPassword()">Submit</button>
