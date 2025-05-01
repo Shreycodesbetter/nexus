@@ -75,20 +75,21 @@
 
     /* Settings Button */
     #settingsButton {
-      position: absolute;
+      position: fixed; /* Ensures the button stays at the top-left corner */
       top: 10px;
       left: 10px;
       background-color: black;
       color: white;
       border: none;
-      border-radius: 50%;
+      border-radius: 50%; /* Makes the button circular */
       width: 50px;
       height: 50px;
-      font-size: 24px;
+      font-size: 24px; /* Adjust font size for emoji */
       display: flex;
       justify-content: center;
       align-items: center;
       cursor: pointer;
+      z-index: 1000; /* Ensures the button appears above all other elements */
       display: none; /* Hidden on login page */
     }
 
@@ -229,7 +230,7 @@
       if (enteredPassword === correctPassword) {
         passwordContainer.style.display = 'none'; // Hide login page
         homeContainer.style.display = 'block'; // Show home page
-        document.getElementById('settingsButton').style.display = 'block'; // Show settings button
+        document.getElementById('settingsButton').style.display = 'flex'; // Show settings button
       } else {
         showErrorMessage("Incorrect password. Please try again.");
       }
