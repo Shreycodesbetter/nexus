@@ -87,39 +87,74 @@
       background-size: cover;
       background-position: center;
       cursor: pointer;
+      display: none; /* Hidden on login page */
     }
 
-    /* Settings Area */
-    #settingsArea {
-      display: none;
+    /* Back Button for Hub */
+    #backButton {
       position: absolute;
-      top: 70px;
+      top: 10px;
       left: 10px;
-      background: rgba(0, 0, 0, 0.9);
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+      background-color: #007bff;
+      border: none;
+      border-radius: 5px;
       color: white;
+      padding: 10px;
+      cursor: pointer;
+      display: none; /* Hidden on login page */
+    }
+
+    /* Fullscreen Hub */
+    #hubContainer {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
       z-index: 1000;
     }
 
-    #settingsArea input {
+    #hubIframe {
       width: 100%;
-      padding: 10px;
-      margin-bottom: 10px;
+      height: 100%;
       border: none;
-      border-radius: 5px;
-      background-color: #333;
-      color: white;
+      background-color: transparent; /* Ensures iframe blends with the background */
     }
 
-    #settingsArea button {
+    /* Error Message Popup */
+    #error-message {
+      display: none;
       background-color: red;
       color: white;
-      border: none;
+      font-weight: bold;
+      text-align: center;
       padding: 10px;
       border-radius: 5px;
-      cursor: pointer;
+      position: absolute;
+      top: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      max-width: 80%;
+      z-index: 9999;
+      animation: slideDown 0.5s ease-out;
+    }
+
+    #error-message.show {
+      display: block;
+      animation: slideDown 0.5s ease-out;
+    }
+
+    @keyframes slideDown {
+      from {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
     }
   </style>
 </head>
@@ -140,23 +175,13 @@
     <a href="#" class="hub-link" onclick="openHub('https://edu.defdc.com')">Educational Hub</a>
     <a href="#" class="hub-link" onclick="openHub('https://canvas-login-instructure.github.io/')">Canvas Hub</a>
     <a href="#" class="hub-link" onclick="openHub('https://coderkid4.github.io/nova/chat.html')">Chat Room</a>
-  </div>
-
-  <!-- Settings Button -->
-  <button id="settingsButton" onclick="toggleSettings()"></button>
-
-  <!-- Settings Area -->
-  <div id="settingsArea">
-    <h3>Set Panic Link</h3>
-    <input type="url" id="panicLink" placeholder="Enter Panic Link" />
-    <input type="text" id="panicKey" placeholder="Enter Panic Key" />
-    <button onclick="activatePanic()">Activate Panic</button>
+    <button id="settingsButton" onclick="toggleSettingsArea()"></button>
   </div>
 
   <!-- Fullscreen Hub -->
   <div id="hubContainer">
     <iframe id="hubIframe" src="" title="Nexus"></iframe>
-    <button style="position: absolute; top: 20px; left: 20px;" onclick="closeHub()">Back</button>
+    <button id="backButton" onclick="closeHub()">Back</button>
   </div>
 
   <script>
@@ -166,12 +191,8 @@
     const homeContainer = document.getElementById('homeContainer');
     const hubContainer = document.getElementById('hubContainer');
     const hubIframe = document.getElementById('hubIframe');
+    const backButton = document.getElementById('backButton');
     const errorMessage = document.getElementById('error-message');
-    const settingsArea = document.getElementById('settingsArea');
-    const panicLinkInput = document.getElementById('panicLink');
-    const panicKeyInput = document.getElementById('panicKey');
-    let panicLink = '';
-    let panicKey = '';
 
     // Function to check the password
     function checkPassword() {
@@ -179,6 +200,7 @@
       if (enteredPassword === correctPassword) {
         passwordContainer.style.display = 'none'; // Hide login page
         homeContainer.style.display = 'block'; // Show home page
+        document.getElementById('settingsButton').style.display = 'block'; // Show settings button
       } else {
         showErrorMessage("Incorrect password. Please try again.");
       }
@@ -200,6 +222,7 @@
       homeContainer.style.display = 'none'; // Hide the home screen
       hubIframe.src = url; // Set the iframe source to the hub URL
       hubContainer.style.display = 'block'; // Show the hub container
+      backButton.style.display = 'block'; // Show the back button
     }
 
     // Function to close the fullscreen hub
@@ -207,28 +230,7 @@
       hubContainer.style.display = 'none'; // Hide the hub container
       hubIframe.src = ''; // Clear the iframe source
       homeContainer.style.display = 'block'; // Show the home screen
-    }
-
-    // Function to toggle the settings area
-    function toggleSettings() {
-      settingsArea.style.display = settingsArea.style.display === 'block' ? 'none' : 'block';
-    }
-
-    // Function to activate the panic link
-    function activatePanic() {
-      panicLink = panicLinkInput.value;
-      panicKey = panicKeyInput.value;
-
-      if (panicLink && panicKey) {
-        alert("Panic link activated!");
-        document.addEventListener('keydown', (event) => {
-          if (event.key === panicKey) {
-            window.location.href = panicLink;
-          }
-        });
-      } else {
-        alert("Please enter both a link and a key.");
-      }
+      backButton.style.display = 'none'; // Hide the back button
     }
   </script>
 </body>
