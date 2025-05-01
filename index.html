@@ -174,12 +174,13 @@
         passwordContainer.style.display = 'none'; // Hide login page
         homeContainer.style.display = 'block'; // Show home page
       } else {
-        showErrorMessage();
+        showErrorMessage("Incorrect password. Please try again.");
       }
     }
 
-    // Function to show the error message
-    function showErrorMessage() {
+    // Function to show the error message with custom text
+    function showErrorMessage(message) {
+      errorMessage.textContent = message;
       errorMessage.classList.add('show');
 
       // Automatically hide the popup after 3 seconds
