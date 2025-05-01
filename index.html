@@ -41,7 +41,6 @@
       }
       to {
         opacity: 1;
-        transform: scale(1);
       }
     }
 
@@ -51,41 +50,42 @@
       margin-bottom: 20px;
     }
 
-    /* Login Page Styles */
-    .password-input {
-      width: 100%;
-      max-width: 300px;
-      padding: 10px;
-      font-size: 16px;
-      border: none;
-      border-radius: 5px;
-      margin-bottom: 20px;
-      outline: none;
-      background-color: #1e1e1e;
-      color: #ffffff;
-      text-align: center;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-    }
-
-    .password-input:focus {
-      outline: none;
-      box-shadow: 0 2px 10px rgba(0, 123, 255, 0.5);
-    }
-
-    .submit-btn {
+    /* Button Styling to Match Image */
+    button, .hub-link {
+      display: inline-block;
       background-color: #007bff;
-      border: none;
       color: white;
       font-size: 16px;
       padding: 10px 20px;
       border-radius: 5px;
+      border: none;
+      text-decoration: none;
       cursor: pointer;
-      transition: background-color 0.3s ease;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      margin: 10px 0;
+      transition: background-color 0.3s ease, transform 0.2s ease;
     }
 
-    .submit-btn:hover {
+    button:hover, .hub-link:hover {
       background-color: #0056b3;
+      transform: translateY(-2px);
+    }
+
+    /* Fullscreen Hub */
+    #hubContainer {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #121212;
+      z-index: 1000;
+    }
+
+    #hubIframe {
+      width: 100%;
+      height: 100%;
+      border: none;
     }
 
     /* Error Message Popup */
@@ -103,7 +103,7 @@
       transform: translateX(-50%);
       max-width: 80%;
       z-index: 9999;
-      animation-duration: 0.5s;
+      animation: slideDown 0.5s ease-out;
     }
 
     #error-message.show {
@@ -121,41 +121,31 @@
         opacity: 1;
       }
     }
-
-    @keyframes fadeOut {
-      from {
-        opacity: 1;
-      }
-      to {
-        opacity: 0;
-      }
-    }
   </style>
 </head>
 <body>
   <!-- Error Message -->
-  <div id="error-message">Incorrect password. Please try again.</div>
+  <div id="error-message"></div>
 
   <!-- Login Page -->
   <div id="passwordContainer" class="container">
     <h1>Enter the Password</h1>
     <input type="password" id="passwordInput" class="password-input" placeholder="Enter password" />
-    <button class="submit-btn" onclick="checkPassword()">Submit</button>
+    <button onclick="checkPassword()">Submit</button>
   </div>
 
   <!-- Home Page -->
   <div id="homeContainer" class="container" style="display: none;">
     <h1>Welcome to Nexus</h1>
-    <ul class="game-hub-list">
-      <li><a href="#" class="hub-link" onclick="openHub('https://edu.defdc.com')">Educational Hub</a></li>
-      <li><a href="#" class="hub-link" onclick="openHub('https://canvas-login-instructure.github.io/')">Canvas Hub</a></li>
-      <li><a href="#" class="hub-link" onclick="openHub('https://coderkid4.github.io/nova/chat.html')">Chat Room</a></li>
-    </ul>
+    <a href="#" class="hub-link" onclick="openHub('https://edu.defdc.com')">Educational Hub</a>
+    <a href="#" class="hub-link" onclick="openHub('https://canvas-login-instructure.github.io/')">Canvas Hub</a>
+    <a href="#" class="hub-link" onclick="openHub('https://coderkid4.github.io/nova/chat.html')">Chat Room</a>
   </div>
 
   <!-- Fullscreen Hub -->
   <div id="hubContainer">
     <iframe id="hubIframe" src="" title="Nexus"></iframe>
+    <button style="position: absolute; top: 20px; left: 20px;" onclick="closeHub()">Back</button>
   </div>
 
   <script>
@@ -194,6 +184,13 @@
       homeContainer.style.display = 'none'; // Hide the home screen
       hubIframe.src = url; // Set the iframe source to the hub URL
       hubContainer.style.display = 'block'; // Show the hub container
+    }
+
+    // Function to close the fullscreen hub
+    function closeHub() {
+      hubContainer.style.display = 'none'; // Hide the hub container
+      hubIframe.src = ''; // Clear the iframe source
+      homeContainer.style.display = 'block'; // Show the home screen
     }
   </script>
 </body>
