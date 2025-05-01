@@ -79,13 +79,15 @@
       top: 10px;
       left: 10px;
       background-color: black;
+      color: white;
       border: none;
       border-radius: 50%;
       width: 50px;
       height: 50px;
-      background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTipSFx7DElGMl5Q7h55SLB6ytqVSmx6CMj8A&s');
-      background-size: cover;
-      background-position: center;
+      font-size: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       cursor: pointer;
       display: none; /* Hidden on login page */
     }
@@ -188,7 +190,7 @@
     <a href="#" class="hub-link" onclick="openHub('https://edu.defdc.com')">Educational Hub</a>
     <a href="#" class="hub-link" onclick="openHub('https://canvas-login-instructure.github.io/')">Canvas Hub</a>
     <a href="#" class="hub-link" onclick="openHub('https://coderkid4.github.io/nova/chat.html')">Chat Room</a>
-    <button id="settingsButton" onclick="toggleSettingsArea()"></button>
+    <button id="settingsButton" onclick="toggleSettingsArea()">⚙️</button>
   </div>
 
   <!-- Panic Settings Area -->
