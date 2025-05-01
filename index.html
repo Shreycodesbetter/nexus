@@ -73,56 +73,53 @@
       transform: translateY(-2px);
     }
 
-    /* Fullscreen Hub */
-    #hubContainer {
+    /* Settings Button */
+    #settingsButton {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background-color: black;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTipSFx7DElGMl5Q7h55SLB6ytqVSmx6CMj8A&s');
+      background-size: cover;
+      background-position: center;
+      cursor: pointer;
+    }
+
+    /* Settings Area */
+    #settingsArea {
       display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: #121212;
+      position: absolute;
+      top: 70px;
+      left: 10px;
+      background: rgba(0, 0, 0, 0.9);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+      color: white;
       z-index: 1000;
     }
 
-    #hubIframe {
+    #settingsArea input {
       width: 100%;
-      height: 100%;
+      padding: 10px;
+      margin-bottom: 10px;
       border: none;
+      border-radius: 5px;
+      background-color: #333;
+      color: white;
     }
 
-    /* Error Message Popup */
-    #error-message {
-      display: none;
+    #settingsArea button {
       background-color: red;
       color: white;
-      font-weight: bold;
-      text-align: center;
+      border: none;
       padding: 10px;
       border-radius: 5px;
-      position: absolute;
-      top: 10px;
-      left: 50%;
-      transform: translateX(-50%);
-      max-width: 80%;
-      z-index: 9999;
-      animation: slideDown 0.5s ease-out;
-    }
-
-    #error-message.show {
-      display: block;
-      animation: slideDown 0.5s ease-out;
-    }
-
-    @keyframes slideDown {
-      from {
-        transform: translateY(-100%);
-        opacity: 0;
-      }
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
+      cursor: pointer;
     }
   </style>
 </head>
@@ -145,6 +142,17 @@
     <a href="#" class="hub-link" onclick="openHub('https://coderkid4.github.io/nova/chat.html')">Chat Room</a>
   </div>
 
+  <!-- Settings Button -->
+  <button id="settingsButton" onclick="toggleSettings()"></button>
+
+  <!-- Settings Area -->
+  <div id="settingsArea">
+    <h3>Set Panic Link</h3>
+    <input type="url" id="panicLink" placeholder="Enter Panic Link" />
+    <input type="text" id="panicKey" placeholder="Enter Panic Key" />
+    <button onclick="activatePanic()">Activate Panic</button>
+  </div>
+
   <!-- Fullscreen Hub -->
   <div id="hubContainer">
     <iframe id="hubIframe" src="" title="Nexus"></iframe>
@@ -159,6 +167,11 @@
     const hubContainer = document.getElementById('hubContainer');
     const hubIframe = document.getElementById('hubIframe');
     const errorMessage = document.getElementById('error-message');
+    const settingsArea = document.getElementById('settingsArea');
+    const panicLinkInput = document.getElementById('panicLink');
+    const panicKeyInput = document.getElementById('panicKey');
+    let panicLink = '';
+    let panicKey = '';
 
     // Function to check the password
     function checkPassword() {
@@ -194,6 +207,28 @@
       hubContainer.style.display = 'none'; // Hide the hub container
       hubIframe.src = ''; // Clear the iframe source
       homeContainer.style.display = 'block'; // Show the home screen
+    }
+
+    // Function to toggle the settings area
+    function toggleSettings() {
+      settingsArea.style.display = settingsArea.style.display === 'block' ? 'none' : 'block';
+    }
+
+    // Function to activate the panic link
+    function activatePanic() {
+      panicLink = panicLinkInput.value;
+      panicKey = panicKeyInput.value;
+
+      if (panicLink && panicKey) {
+        alert("Panic link activated!");
+        document.addEventListener('keydown', (event) => {
+          if (event.key === panicKey) {
+            window.location.href = panicLink;
+          }
+        });
+      } else {
+        alert("Please enter both a link and a key.");
+      }
     }
   </script>
 </body>
