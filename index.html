@@ -155,6 +155,20 @@
       border-radius: 5px;
       cursor: pointer;
     }
+
+    #feedbackButton {
+      background-color: green;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    #feedbackButton:hover {
+      background-color: darkgreen;
+    }
   </style>
 </head>
 <body>
@@ -171,10 +185,9 @@
   <!-- Home Page -->
   <div id="homeContainer" class="container" style="display: none;">
     <h1>Welcome to Nexus</h1>
-    <a href="#" class="hub-link" onclick="openHub('https://edu.defdc.com')">Interstellar</a>
-    <a href="#" class="hub-link" onclick="openHub('https://canvas-login-instructure.github.io/')">Canvas.io</a>
+    <a href="#" class="hub-link" onclick="openHub('https://edu.defdc.com')">Educational Hub</a>
+    <a href="#" class="hub-link" onclick="openHub('https://canvas-login-instructure.github.io/')">Canvas Hub</a>
     <a href="#" class="hub-link" onclick="openHub('https://coderkid4.github.io/nova/chat.html')">Chat Room</a>
-    <a href="#" class="hub-link" onclick="openHub('https://rovenshah.com/')">Crypto.io</a>
     <button id="settingsButton" onclick="toggleSettingsArea()"></button>
   </div>
 
@@ -184,6 +197,7 @@
     <input type="url" id="panicLink" placeholder="Enter Panic Link" />
     <input type="text" id="panicKey" placeholder="Enter Panic Key" />
     <button onclick="activatePanic()">Activate Panic</button>
+    <button id="feedbackButton" onclick="goToFeedbackForm()">Feedback Form</button>
   </div>
 
   <!-- Fullscreen Hub -->
@@ -266,6 +280,11 @@
       } else {
         alert("Please enter both a link and a key.");
       }
+    }
+
+    // Function to redirect to feedback form
+    function goToFeedbackForm() {
+      window.location.href = 'https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=8nAYNexOdUyAWk20-BGuoUpC9wOTM6xChnB0nnt80dVUNEg0NFBQV1kyUENIMTkyMzBOVTFZV0tGMy4u';
     }
   </script>
 </body>
