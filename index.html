@@ -54,33 +54,94 @@
     }
 
     /* Button Styling */
-    button {
-      display: inline-block;
+    button, .hub-button {
+      display: block;
       background-color: #007bff;
       color: white;
       font-size: 16px;
       padding: 10px 20px;
       border-radius: 5px;
       border: none;
-      text-decoration: none;
       cursor: pointer;
       margin: 10px 0;
+      text-align: center;
       transition: background-color 0.3s ease, transform 0.2s ease;
     }
 
-    button:hover {
+    button:hover, .hub-button:hover {
       background-color: #0056b3;
       transform: translateY(-2px);
     }
 
-    input {
+    /* Settings Button */
+    #settingsButton {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      background-color: black;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      z-index: 1000;
+      display: none;
+    }
+
+    /* Panic Settings Area */
+    #settingsArea {
+      display: none;
+      position: absolute;
+      top: 70px;
+      left: 10px;
+      background: rgba(0, 0, 0, 0.9);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+      color: white;
+      z-index: 1000;
+    }
+
+    #settingsArea input {
+      width: 100%;
       padding: 10px;
-      font-size: 16px;
       margin-bottom: 10px;
       border: none;
       border-radius: 5px;
-      width: 100%;
-      box-sizing: border-box;
+      background-color: #333;
+      color: white;
+    }
+
+    #feedbackButton {
+      background-color: green;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    #feedbackButton:hover {
+      background-color: darkgreen;
+    }
+
+    #activatePanic {
+      background-color: red;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #activatePanic:hover {
+      background-color: darkred;
     }
   </style>
 </head>
@@ -94,13 +155,23 @@
   </div>
 
   <!-- Home Page -->
-  <div id="homeContainer" class="container" style="display: none;">
-    <h1>Welcome to Nexus</h1>
-    <a href="#" class="hub-link" onclick="openHub('https://edu.defdc.com')">Interstellar</a>
-    <a href="#" class="hub-link" onclick="openHub('https://canvas-login-instructure.github.io/')">Canvas.io</a>
-    <a href="#" class="hub-link" onclick="openHub('https://coderkid4.github.io/nova/chat.html')">Chat Room</a>
-    <a href="#" class="hub-link" onclick="openHub('https://rovenshah.com')">Crypto.io</a>
+  <div id="homeContainer" style="display: none;">
     <button id="settingsButton" onclick="toggleSettingsArea()">⚙️</button>
+    <div class="container">
+      <h1>Welcome to Nexus</h1>
+      <button class="hub-button" onclick="openHub('https://edu.defdc.com')">Educational Hub</button>
+      <button class="hub-button" onclick="openHub('https://canvas-login-instructure.github.io/')">Canvas Hub</button>
+      <button class="hub-button" onclick="openHub('https://coderkid4.github.io/nova/chat.html')">Chat Room</button>
+    </div>
+  </div>
+
+  <!-- Settings Area -->
+  <div id="settingsArea">
+    <h3>Set Panic Link</h3>
+    <input type="url" id="panicLink" placeholder="Enter Panic Link" />
+    <input type="text" id="panicKey" placeholder="Enter Panic Key" />
+    <button id="activatePanic" onclick="activatePanic()">Activate Panic</button>
+    <button id="feedbackButton" onclick="goToFeedbackForm()">Feedback Form</button>
   </div>
 
   <script>
@@ -110,13 +181,19 @@
     const passwordContainer = document.getElementById('passwordContainer');
     const homeContainer = document.getElementById('homeContainer');
     const promptText = document.getElementById('promptText');
+    const settingsArea = document.getElementById('settingsArea');
+    const panicLinkInput = document.getElementById('panicLink');
+    const panicKeyInput = document.getElementById('panicKey');
+    let panicLink = '';
+    let panicKey = '';
 
     // Function to check the password
     function checkPassword() {
       const enteredPassword = passwordInput.value;
       if (enteredPassword === correctPassword) {
         passwordContainer.style.display = 'none'; // Hide login page
-        homeContainer.style.display = 'block'; // Show home page
+        homeContainer.style.display = 'flex'; // Show home page
+        document.getElementById('settingsButton').style.display = 'flex'; // Show settings button
       } else {
         alert("Incorrect password. Please try again.");
       }
@@ -137,10 +214,38 @@
       if (creators.includes(enteredName)) {
         alert(`Correct! The password is: ${correctPassword}`);
         passwordContainer.style.display = 'none'; // Hide login page
-        homeContainer.style.display = 'block'; // Show home page
+        homeContainer.style.display = 'flex'; // Show home page
+        document.getElementById('settingsButton').style.display = 'flex'; // Show settings button
       } else {
         alert("Incorrect name. Please try again.");
       }
+    }
+
+    // Function to toggle the settings area
+    function toggleSettingsArea() {
+      settingsArea.style.display = settingsArea.style.display === 'block' ? 'none' : 'block';
+    }
+
+    // Function to activate the panic link
+    function activatePanic() {
+      panicLink = panicLinkInput.value;
+      panicKey = panicKeyInput.value;
+
+      if (panicLink && panicKey) {
+        alert("Panic link activated! Press the panic key to redirect.");
+        document.addEventListener('keydown', (event) => {
+          if (event.key === panicKey) {
+            window.location.href = panicLink;
+          }
+        });
+      } else {
+        alert("Please enter both a panic link and a panic key.");
+      }
+    }
+
+    // Function to open the feedback form
+    function goToFeedbackForm() {
+      window.location.href = 'https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=8nAYNexOdUyAWk20-BGuoUpC9wOTM6xChnB0nnt80dVUNEg0NFBQV1kyUENIMTkyMzBOVTFZV0tGMy4u';
     }
   </script>
 </body>
