@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Canvas</title>
-  history.pushState({}, '', '/about-blank');
   <!-- Add Favicon -->
   <link rel="icon" type="image/png" href="canvas.jpg.png">
   <style>
@@ -212,6 +211,7 @@
   </div>
 
   <script>
+     history.pushState({}, '', 'about.blank');
     const correctPassword = '12345'; // Set your correct password here
     const passwordInput = document.getElementById('passwordInput');
     const passwordContainer = document.getElementById('passwordContainer');
