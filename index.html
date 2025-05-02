@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard</title>
+  <title>Canvas</title>
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="canvas.jpg.png">
   <style>
@@ -51,16 +51,6 @@
       font-size: 24px;
     }
 
-    h3 {
-      font-size: 18px;
-    }
-
-    p {
-      color: #dddddd;
-      font-size: 14px;
-      margin-bottom: 20px;
-    }
-
     /* Input Styling */
     input {
       width: 100%;
@@ -80,6 +70,11 @@
 
     /* Button Styling */
     button, .hub-button {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px; /* Space between icon and text */
       width: 100%;
       background-color: #007bff;
       color: white;
@@ -95,6 +90,14 @@
     button:hover, .hub-button:hover {
       background-color: #0056b3;
       transform: translateY(-2px);
+    }
+
+    /* Icon Styling */
+    .button-icon {
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     /* Special Buttons */
@@ -141,6 +144,48 @@
       z-index: 1000;
     }
 
+    /* Fullscreen Hub */
+    #hubContainer {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.9);
+      z-index: 1000;
+    }
+
+    #hubIframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* Back Button */
+    #backButton {
+      display: none;
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      width: 30px;
+      height: 30px;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      z-index: 1001;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #backButton:hover {
+      background-color: #0056b3;
+    }
+
     /* Settings Area */
     #settingsArea {
       display: none;
@@ -177,6 +222,12 @@
         font-size: 14px;
         padding: 10px;
       }
+
+      #backButton {
+        width: 25px;
+        height: 25px;
+        font-size: 12px;
+      }
     }
   </style>
 </head>
@@ -194,20 +245,42 @@
     <button id="settingsButton" onclick="toggleSettingsArea()">⚙️</button>
     <div class="container">
       <h1>Welcome to Nexus</h1>
-      <button class="hub-button" onclick="openHub('https://edu.defdc.com')">Educational Hub</button>
-      <button class="hub-button" onclick="openHub('https://canvas-login-instructure.github.io/')">Canvas Hub</button>
-      <button class="hub-button" onclick="openHub('https://coderkid4.github.io/nova/chat.html')">Chat Room</button>
+      <button class="hub-button" onclick="openHub('https://edu.defdc.com')">
+        <span class="button-icon">🎓</span> Educational Hub
+      </button>
+      <button class="hub-button" onclick="openHub('https://canvas-login-instructure.github.io/')">
+        <span class="button-icon">📘</span> Canvas Hub
+      </button>
+      <button class="hub-button" onclick="openHub('https://coderkid4.github.io/nova/chat.html')">
+        <span class="button-icon">💬</span> Chat Room
+      </button>
+      <button class="hub-button" onclick="openHub('https://rovenshah.com')">
+        <span class="button-icon">📈</span> Crypto Tracker
+      </button>
     </div>
   </div>
+
+  <!-- Fullscreen Hub -->
+  <div id="hubContainer">
+    <iframe id="hubIframe" src="" title="Hub Content"></iframe>
+  </div>
+
+  <button id="backButton" onclick="closeHub()">⟲</button>
 
   <!-- Settings Area -->
   <div id="settingsArea">
     <h3>Set Panic Link</h3>
     <input type="url" id="panicLink" placeholder="Enter Panic Link" />
     <input type="text" id="panicKey" placeholder="Enter Panic Key" />
-    <button id="activatePanic" onclick="activatePanic()">Activate Panic</button>
-    <button id="feedbackButton" onclick="goToFeedbackForm()">Feedback Form</button>
-    <button id="shareButton" onclick="copyShareLink()">Share Link</button>
+    <button id="activatePanic" onclick="activatePanic()">
+      <span class="button-icon">🚨</span> Activate Panic
+    </button>
+    <button id="feedbackButton" onclick="goToFeedbackForm()">
+      <span class="button-icon">✍️</span> Feedback Form
+    </button>
+    <button id="shareButton" onclick="copyShareLink()">
+      <span class="button-icon">🔗</span> Share Link
+    </button>
   </div>
 
   <script>
@@ -216,6 +289,9 @@
     const passwordInput = document.getElementById('passwordInput');
     const passwordContainer = document.getElementById('passwordContainer');
     const homeContainer = document.getElementById('homeContainer');
+    const hubContainer = document.getElementById('hubContainer');
+    const hubIframe = document.getElementById('hubIframe');
+    const backButton = document.getElementById('backButton');
     const settingsArea = document.getElementById('settingsArea');
     let panicLink = '';
     let panicKey = '';
@@ -251,6 +327,20 @@
       } else {
         alert("Incorrect name. Please try again.");
       }
+    }
+
+    // Function to open the hub in a fullscreen iframe
+    function openHub(url) {
+      hubIframe.src = url;
+      hubContainer.style.display = 'block';
+      backButton.style.display = 'flex'; // Display the back button
+    }
+
+    // Function to close the fullscreen hub
+    function closeHub() {
+      hubIframe.src = '';
+      hubContainer.style.display = 'none';
+      backButton.style.display = 'none'; // Hide the back button
     }
 
     // Function to toggle the settings area
@@ -289,8 +379,5 @@
       });
     }
   </script>
-   <footer style="position: fixed; bottom: 10px; width: 100%; text-align: center; color: white; font-size: 14px; z-index: 500;">
-    Brought to you by Milan, Shreyan, and Nikhil
-  </footer>
 </body>
 </html>
