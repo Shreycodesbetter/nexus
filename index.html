@@ -54,8 +54,8 @@
     }
 
     /* Button Styling */
-    button, .hub-link {
-      display: block;
+    button {
+      display: inline-block;
       background-color: #007bff;
       color: white;
       font-size: 16px;
@@ -64,125 +64,33 @@
       border: none;
       text-decoration: none;
       cursor: pointer;
-      margin: 10px 10px;
+      margin: 10px 0;
       transition: background-color 0.3s ease, transform 0.2s ease;
     }
 
-    button:hover, .hub-link:hover {
+    button:hover {
       background-color: #0056b3;
       transform: translateY(-2px);
     }
 
-    /* Settings Button */
-    #settingsButton {
-      position: fixed; /* Ensures the button stays at the top-left corner */
-      top: 10px;
-      left: 10px;
-      background-color: black;
-      color: white;
-      border: none;
-      border-radius: 50%; /* Makes the button circular */
-      width: 50px;
-      height: 50px;
-      font-size: 24px; /* Adjust font size for emoji */
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
-      z-index: 1000; /* Ensures the button appears above all other elements */
-      display: none; /* Hidden on login page */
-    }
-
-    /* Back Button for Hub */
-    #backButton {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      background-color: #007bff;
-      border: none;
-      border-radius: 5px;
-      color: white;
+    input {
       padding: 10px;
-      cursor: pointer;
-      display: none; /* Hidden on login page */
-    }
-
-    /* Fullscreen Hub */
-    #hubContainer {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.9);
-      z-index: 1000;
-    }
-
-    #hubIframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      background-color: transparent; /* Ensures iframe blends with the background */
-    }
-
-    /* Panic Settings Area */
-    #settingsArea {
-      display: none;
-      position: absolute;
-      top: 70px;
-      left: 10px;
-      background: rgba(0, 0, 0, 0.9);
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
-      color: white;
-      z-index: 1000;
-    }
-
-    #settingsArea input {
-      width: 100%;
-      padding: 10px;
+      font-size: 16px;
       margin-bottom: 10px;
       border: none;
       border-radius: 5px;
-      background-color: #333;
-      color: white;
-    }
-
-    #settingsArea button {
-      background-color: red;
-      color: white;
-      border: none;
-      padding: 10px;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    #feedbackButton {
-      background-color: green;
-      color: white;
-      border: none;
-      padding: 10px;
-      border-radius: 5px;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-
-    #feedbackButton:hover {
-      background-color: darkgreen;
+      width: 100%;
+      box-sizing: border-box;
     }
   </style>
 </head>
 <body>
-  <!-- Error Message -->
-  <div id="error-message"></div>
-
   <!-- Login Page -->
   <div id="passwordContainer" class="container">
-    <h1>Enter the Password</h1>
+    <h1 id="promptText">Enter the Password</h1>
     <input type="password" id="passwordInput" class="password-input" placeholder="Enter password" />
     <button onclick="checkPassword()">Submit</button>
+    <button onclick="forgotPassword()">Forgot Password?</button>
   </div>
 
   <!-- Home Page -->
@@ -191,40 +99,17 @@
     <a href="#" class="hub-link" onclick="openHub('https://edu.defdc.com')">Interstellar</a>
     <a href="#" class="hub-link" onclick="openHub('https://canvas-login-instructure.github.io/')">Canvas.io</a>
     <a href="#" class="hub-link" onclick="openHub('https://coderkid4.github.io/nova/chat.html')">Chat Room</a>
-    <a href="#" class="hub-link" onclick="openHub('https://rovenshah.com/')">Crypto.io</a>
+    <a href="#" class="hub-link" onclick="openHub('https://rovenshah.com')">Crypto.io</a>
     <button id="settingsButton" onclick="toggleSettingsArea()">⚙️</button>
   </div>
 
-  <!-- Panic Settings Area -->
-  <div id="settingsArea">
-    <h3>Set Panic Link</h3>
-    <input type="url" id="panicLink" placeholder="Enter Panic Link" />
-    <input type="text" id="panicKey" placeholder="Enter Panic Key" />
-    <button onclick="activatePanic()">Activate Panic</button>
-    <button id="feedbackButton" onclick="goToFeedbackForm()">Feedback Form</button>
-  </div>
-
-  <!-- Fullscreen Hub -->
-  <div id="hubContainer">
-    <iframe id="hubIframe" src="" title="Nexus"></iframe>
-    <button id="backButton" onclick="closeHub()">Back</button>
-  </div>
-
   <script>
-
     const correctPassword = '12345'; // Set your correct password here
+    const creators = ['Milan', 'Shreyan']; // List of creators' names
     const passwordInput = document.getElementById('passwordInput');
     const passwordContainer = document.getElementById('passwordContainer');
     const homeContainer = document.getElementById('homeContainer');
-    const hubContainer = document.getElementById('hubContainer');
-    const hubIframe = document.getElementById('hubIframe');
-    const backButton = document.getElementById('backButton');
-    const errorMessage = document.getElementById('error-message');
-    const settingsArea = document.getElementById('settingsArea');
-    const panicLinkInput = document.getElementById('panicLink');
-    const panicKeyInput = document.getElementById('panicKey');
-    let panicLink = '';
-    let panicKey = '';
+    const promptText = document.getElementById('promptText');
 
     // Function to check the password
     function checkPassword() {
@@ -232,77 +117,31 @@
       if (enteredPassword === correctPassword) {
         passwordContainer.style.display = 'none'; // Hide login page
         homeContainer.style.display = 'block'; // Show home page
-        document.getElementById('settingsButton').style.display = 'flex'; // Show settings button
       } else {
-        showErrorMessage("Incorrect password. Please try again.");
+        alert("Incorrect password. Please try again.");
       }
     }
 
-    // Function to show the error message with custom text
-    function showErrorMessage(message) {
-      errorMessage.textContent = message;
-      errorMessage.classList.add('show');
-
-      // Automatically hide the popup after 3 seconds
-      setTimeout(() => {
-        errorMessage.classList.remove('show');
-      }, 3000);
+    // Function for 'Forgot Password'
+    function forgotPassword() {
+      promptText.textContent = "Enter One Of the Creator's Names";
+      passwordInput.value = ''; // Clear the input field
+      passwordInput.placeholder = "Enter creator's name";
+      passwordInput.type = 'text'; // Change input type to text
+      document.querySelector('button[onclick="checkPassword()"]').setAttribute('onclick', 'checkCreatorName()');
     }
 
-    // Function to open the hub in a fullscreen iframe
-    function openHub(url) {
-      homeContainer.style.display = 'none'; // Hide the home screen
-      hubIframe.src = url; // Set the iframe source to the hub URL
-      hubContainer.style.display = 'block'; // Show the hub container
-      backButton.style.display = 'block'; // Show the back button
-    }
-
-    // Function to close the fullscreen hub
-    function closeHub() {
-      hubContainer.style.display = 'none'; // Hide the hub container
-      hubIframe.src = ''; // Clear the iframe source
-      homeContainer.style.display = 'block'; // Show the home screen
-      backButton.style.display = 'none'; // Hide the back button
-    }
-
-    // Function to toggle the settings area
-    function toggleSettingsArea() {
-      settingsArea.style.display = settingsArea.style.display === 'block' ? 'none' : 'block';
-    }
-
-    // Function to activate the panic link
-    function activatePanic() {
-      panicLink = panicLinkInput.value;
-      panicKey = panicKeyInput.value;
-
-      if (panicLink && panicKey) {
-        alert("Panic link activated!");
-        document.addEventListener('keydown', (event) => {
-          if (event.key === panicKey) {
-            window.location.href = panicLink;
-          }
-        });
+    // Function to check the creator's name
+    function checkCreatorName() {
+      const enteredName = passwordInput.value.trim();
+      if (creators.includes(enteredName)) {
+        alert(`Correct! The password is: ${correctPassword}`);
+        passwordContainer.style.display = 'none'; // Hide login page
+        homeContainer.style.display = 'block'; // Show home page
       } else {
-        alert("Please enter both a link and a key.");
+        alert("Incorrect name. Please try again.");
       }
-    }
-
-    // Function to redirect to feedback form
-    function goToFeedbackForm() {
-      window.location.href = 'https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=8nAYNexOdUyAWk20-BGuoUpC9wOTM6xChnB0nnt80dVUNEg0NFBQV1kyUENIMTkyMzBOVTFZV0tGMy4u';
     }
   </script>
-  <div style="
-  position: fixed;
-  bottom: 10px;
-  width: 100%;
-  text-align: center;
-  color: white;
-  font-size: 25px;
-  z-index: 999;
-  font-family: Arial, sans-serif;
-">
-  Made by Milan and Shreyan
-</div>
 </body>
 </html>
