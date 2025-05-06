@@ -4,18 +4,230 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Canvas</title>
+  <!-- Favicon -->
   <link rel="icon" type="image/png" href="canvas.jpg.png">
   <style>
-    /* (Same CSS styles as you already had, unchanged for brevity) */
-    /* ... all your existing styles ... */
-    
-    /* Optional: Review button color */
-    #reviewButton {
-      background-color: purple;
+    /* Global Styles */
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      font-family: 'Arial', sans-serif;
+      background: url('https://i.pinimg.com/originals/62/39/4d/62394d753859943e6a1a36443ef78795.gif') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
-    #reviewButton:hover {
-      background-color: rebeccapurple;
+    /* Shared Container Styles */
+    .container {
+      background: rgba(0, 0, 0, 0.85);
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.5);
+      text-align: center;
+      animation: fadeIn 1s ease;
+      width: 90%;
+      max-width: 400px;
+      box-sizing: border-box;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    h1, h3 {
+      color: #ffffff;
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+
+    /* Input Styling */
+    input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 5px;
+      border: 1px solid #444;
+      background-color: #333;
+      color: white;
+      margin-bottom: 15px;
+      font-size: 14px;
+      box-sizing: border-box;
+    }
+
+    input::placeholder {
+      color: #aaaaaa;
+    }
+
+    /* Button Styling */
+    button, .hub-button {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px; /* Space between icon and text */
+      width: 100%;
+      background-color: #007bff;
+      color: white;
+      font-size: 16px;
+      padding: 12px;
+      border-radius: 5px;
+      border: none;
+      cursor: pointer;
+      margin-bottom: 15px;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    button:hover, .hub-button:hover {
+      background-color: #0056b3;
+      transform: translateY(-2px);
+    }
+
+    /* Icon Styling */
+    .button-icon {
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Special Buttons */
+    #feedbackButton {
+      background-color: green;
+    }
+
+    #feedbackButton:hover {
+      background-color: darkgreen;
+    }
+
+    #activatePanic {
+      background-color: red;
+    }
+
+    #activatePanic:hover {
+      background-color: darkred;
+    }
+
+    #shareButton {
+      background-color: orange;
+    }
+
+    #shareButton:hover {
+      background-color: darkorange;
+    }
+
+    /* Settings Button */
+    #settingsButton {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background-color: black;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      z-index: 1000;
+    }
+
+    /* Fullscreen Hub */
+    #hubContainer {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.9);
+      z-index: 1000;
+    }
+
+    #hubIframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* Back Button */
+    #backButton {
+      display: none;
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      width: 30px;
+      height: 30px;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      z-index: 1001;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #backButton:hover {
+      background-color: #0056b3;
+    }
+
+    /* Settings Area */
+    #settingsArea {
+      display: none;
+      position: fixed;
+      top: 100px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      max-width: 400px;
+      background: rgba(0, 0, 0, 0.9);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      text-align: center;
+      box-sizing: border-box;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      #settingsButton {
+        top: 10px;
+        left: 10px;
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+      }
+
+      h1 {
+        font-size: 20px;
+      }
+
+      button, .hub-button {
+        font-size: 14px;
+        padding: 10px;
+      }
+
+      #backButton {
+        width: 25px;
+        height: 25px;
+        font-size: 12px;
+      }
     }
   </style>
 </head>
@@ -69,15 +281,11 @@
     <button id="shareButton" onclick="copyShareLink()">
       <span class="button-icon">🔗</span> Share Link
     </button>
-    <!-- ✅ New Request Review Button -->
-    <button id="reviewButton" onclick="requestReview()">
-      <span class="button-icon">📝</span> Request Review
-    </button>
   </div>
 
   <script>
-    const correctPassword = '12345';
-    const creators = ['Milan', 'Shreyan'];
+    const correctPassword = '12345'; // Set your correct password here
+    const creators = ['Milan', 'Shreyan']; // List of creators' names
     const passwordInput = document.getElementById('passwordInput');
     const passwordContainer = document.getElementById('passwordContainer');
     const homeContainer = document.getElementById('homeContainer');
@@ -88,6 +296,7 @@
     let panicLink = '';
     let panicKey = '';
 
+    // Function to check the password
     function checkPassword() {
       const enteredPassword = passwordInput.value;
       if (enteredPassword === correctPassword) {
@@ -98,6 +307,7 @@
       }
     }
 
+    // Function for 'Forgot Password'
     function forgotPassword() {
       const promptText = document.getElementById('promptText');
       promptText.textContent = "Enter One Of the Creator's Names";
@@ -107,10 +317,11 @@
       document.querySelector('button[onclick="checkPassword()"]').setAttribute('onclick', 'checkCreatorName()');
     }
 
+    // Function to check the creator's name
     function checkCreatorName() {
       const enteredName = passwordInput.value.trim();
       if (creators.includes(enteredName)) {
-        alert(`Correct! The password is: ${correctPassword}`);
+        alert(Correct! The password is: ${correctPassword});
         passwordContainer.style.display = 'none';
         homeContainer.style.display = 'flex';
       } else {
@@ -118,22 +329,26 @@
       }
     }
 
+    // Function to open the hub in a fullscreen iframe
     function openHub(url) {
       hubIframe.src = url;
       hubContainer.style.display = 'block';
-      backButton.style.display = 'flex';
+      backButton.style.display = 'flex'; // Display the back button
     }
 
+    // Function to close the fullscreen hub
     function closeHub() {
       hubIframe.src = '';
       hubContainer.style.display = 'none';
-      backButton.style.display = 'none';
+      backButton.style.display = 'none'; // Hide the back button
     }
 
+    // Function to toggle the settings area
     function toggleSettingsArea() {
       settingsArea.style.display = settingsArea.style.display === 'block' ? 'none' : 'block';
     }
 
+    // Function to activate the panic link
     function activatePanic() {
       panicLink = document.getElementById('panicLink').value;
       panicKey = document.getElementById('panicKey').value;
@@ -149,28 +364,19 @@
       }
     }
 
+    // Function to open the feedback form
     function goToFeedbackForm() {
       window.location.href = 'https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=8nAYNexOdUyAWk20-BGuoUpC9wOTM6xChnB0nnt80dVUNEg0NFBQV1kyUENIMTkyMzBOVTFZV0tGMy4u';
     }
 
+    // Function to copy the share link
     function copyShareLink() {
-      const shareLink = window.location.href;
+      const shareLink = window.location.href; // Gets the current page URL
       navigator.clipboard.writeText(shareLink).then(() => {
         alert("Link copied to clipboard!");
       }).catch(() => {
         alert("Failed to copy the link. Please try again later.");
       });
-    }
-
-    // ✅ New Request Review Function
-    function requestReview() {
-      const review = prompt("We'd love your feedback! Please leave a review:");
-      if (review) {
-        alert("Thanks for your review!");
-        console.log("User review:", review);
-      } else {
-        alert("No review submitted.");
-      }
     }
   </script>
 </body>
