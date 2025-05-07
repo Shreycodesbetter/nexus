@@ -254,7 +254,6 @@
 
   <script>
     const correctPassword = '12345';
-    const creators = ['Milan', 'Shreyan'];
     const passwordInput = document.getElementById('passwordInput');
     const passwordContainer = document.getElementById('passwordContainer');
     const homeContainer = document.getElementById('homeContainer');
@@ -262,21 +261,68 @@
     const hubIframe = document.getElementById('hubIframe');
     const backButton = document.getElementById('backButton');
     const settingsArea = document.getElementById('settingsArea');
-    const submitButton = document.getElementById('submitButton');
+    const panicLinkInput = document.getElementById('panicLink');
+    const panicKeyInput = document.getElementById('panicKey');
 
     let panicLink = '';
     let panicKey = '';
 
-    function checkPasswordYou're a professional developer highly skilled in debugging. The user ran the textdoc's code, and an error was thrown.
-Please think carefully about how to fix the error, and then rewrite the textdoc to fix it.
+    function checkPassword() {
+      const input = passwordInput.value;
+      if (input === correctPassword) {
+        passwordContainer.style.display = 'none';
+        homeContainer.style.display = 'block';
+      } else {
+        alert('Incorrect Password. Try again.');
+      }
+    }
 
-- NEVER change existing test cases unless they're clearly wrong.
-- ALWAYS add more test cases if there aren't any yet.
-- ALWAYS ask the user what the expected behavior is in the chat if the code is not clear.
+    function forgotPassword() {
+      alert('Hint: Try "12345" 😉');
+    }
 
+    function toggleSettingsArea() {
+      if (settingsArea.style.display === 'none' || settingsArea.style.display === '') {
+        settingsArea.style.display = 'block';
+      } else {
+        settingsArea.style.display = 'none';
+      }
+    }
 
-# Error
+    function openHub(url) {
+      hubIframe.src = url;
+      hubContainer.style.display = 'block';
+      backButton.style.display = 'flex';
+    }
 
-ReferenceError: Uncaught ReferenceError: checkPassword is not defined
+    function closeHub() {
+      hubContainer.style.display = 'none';
+      hubIframe.src = '';
+      backButton.style.display = 'none';
+    }
 
-Stack:
+    function activatePanic() {
+      panicLink = panicLinkInput.value;
+      panicKey = panicKeyInput.value;
+      if (panicLink && panicKey) {
+        alert(`Panic mode set.\nKey: ${panicKey}\nLink: ${panicLink}`);
+      } else {
+        alert('Please enter both a Panic Link and Panic Key.');
+      }
+    }
+
+    function goToFeedbackForm() {
+      window.open('https://forms.gle/your-feedback-link', '_blank'); // Replace this
+    }
+
+    function copyShareLink() {
+      const shareText = window.location.href;
+      navigator.clipboard.writeText(shareText).then(() => {
+        alert('Share link copied to clipboard!');
+      }).catch(() => {
+        alert('Failed to copy share link.');
+      });
+    }
+  </script>
+</body>
+</html>
