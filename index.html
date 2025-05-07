@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Canvas</title>
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="canvas.jpg.png">
+  <link rel="icon" type="image/png" href="canvas.jpg.png" />
   <style>
-    /* Global Styles */
     body, html {
       margin: 0;
       padding: 0;
@@ -21,7 +19,6 @@
       align-items: center;
     }
 
-    /* Shared Container Styles */
     .container {
       background: rgba(0, 0, 0, 0.85);
       padding: 30px;
@@ -51,7 +48,6 @@
       font-size: 24px;
     }
 
-    /* Input Styling */
     input {
       width: 100%;
       padding: 12px;
@@ -68,13 +64,12 @@
       color: #aaaaaa;
     }
 
-    /* Button Styling */
     button, .hub-button {
       position: relative;
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 8px; /* Space between icon and text */
+      gap: 8px;
       width: 100%;
       background-color: #007bff;
       color: white;
@@ -92,7 +87,6 @@
       transform: translateY(-2px);
     }
 
-    /* Icon Styling */
     .button-icon {
       font-size: 18px;
       display: flex;
@@ -100,32 +94,15 @@
       justify-content: center;
     }
 
-    /* Special Buttons */
-    #feedbackButton {
-      background-color: green;
-    }
+    #feedbackButton { background-color: green; }
+    #feedbackButton:hover { background-color: darkgreen; }
 
-    #feedbackButton:hover {
-      background-color: darkgreen;
-    }
+    #activatePanic { background-color: red; }
+    #activatePanic:hover { background-color: darkred; }
 
-    #activatePanic {
-      background-color: red;
-    }
+    #shareButton { background-color: orange; }
+    #shareButton:hover { background-color: darkorange; }
 
-    #activatePanic:hover {
-      background-color: darkred;
-    }
-
-    #shareButton {
-      background-color: orange;
-    }
-
-    #shareButton:hover {
-      background-color: darkorange;
-    }
-
-    /* Settings Button */
     #settingsButton {
       position: fixed;
       top: 20px;
@@ -144,7 +121,6 @@
       z-index: 1000;
     }
 
-    /* Fullscreen Hub */
     #hubContainer {
       display: none;
       position: fixed;
@@ -162,7 +138,6 @@
       border: none;
     }
 
-    /* Back Button */
     #backButton {
       display: none;
       position: absolute;
@@ -186,7 +161,6 @@
       background-color: #0056b3;
     }
 
-    /* Settings Area */
     #settingsArea {
       display: none;
       position: fixed;
@@ -204,7 +178,6 @@
       box-sizing: border-box;
     }
 
-    /* Responsive Design */
     @media (max-width: 768px) {
       #settingsButton {
         top: 10px;
@@ -232,15 +205,13 @@
   </style>
 </head>
 <body>
-  <!-- Login Page -->
   <div id="passwordContainer" class="container">
     <h1 id="promptText">Enter the Password</h1>
-    <input type="password" id="passwordInput" class="password-input" placeholder="Enter password" />
-    <button onclick="checkPassword()">Submit</button>
+    <input type="password" id="passwordInput" placeholder="Enter password" />
+    <button id="submitButton" onclick="checkPassword()">Submit</button>
     <button onclick="forgotPassword()">Forgot Password?</button>
   </div>
 
-  <!-- Home Page -->
   <div id="homeContainer" style="display: none;">
     <button id="settingsButton" onclick="toggleSettingsArea()">⚙️</button>
     <div class="container">
@@ -260,14 +231,12 @@
     </div>
   </div>
 
-  <!-- Fullscreen Hub -->
   <div id="hubContainer">
     <iframe id="hubIframe" src="" title="Hub Content"></iframe>
   </div>
 
   <button id="backButton" onclick="closeHub()">⟲</button>
 
-  <!-- Settings Area -->
   <div id="settingsArea">
     <h3>Set Panic Link</h3>
     <input type="url" id="panicLink" placeholder="Enter Panic Link" />
@@ -284,8 +253,8 @@
   </div>
 
   <script>
-    const correctPassword = '12345'; // Set your correct password here
-    const creators = ['Milan', 'Shreyan']; // List of creators' names
+    const correctPassword = '12345';
+    const creators = ['Milan', 'Shreyan'];
     const passwordInput = document.getElementById('passwordInput');
     const passwordContainer = document.getElementById('passwordContainer');
     const homeContainer = document.getElementById('homeContainer');
@@ -293,91 +262,21 @@
     const hubIframe = document.getElementById('hubIframe');
     const backButton = document.getElementById('backButton');
     const settingsArea = document.getElementById('settingsArea');
+    const submitButton = document.getElementById('submitButton');
+
     let panicLink = '';
     let panicKey = '';
 
-    // Function to check the password
-    function checkPassword() {
-      const enteredPassword = passwordInput.value;
-      if (enteredPassword === correctPassword) {
-        passwordContainer.style.display = 'none';
-        homeContainer.style.display = 'flex';
-      } else {
-        alert("Incorrect password. Please try again.");
-      }
-    }
+    function checkPasswordYou're a professional developer highly skilled in debugging. The user ran the textdoc's code, and an error was thrown.
+Please think carefully about how to fix the error, and then rewrite the textdoc to fix it.
 
-    // Function for 'Forgot Password'
-    function forgotPassword() {
-      const promptText = document.getElementById('promptText');
-      promptText.textContent = "Enter One Of the Creator's Names";
-      passwordInput.value = '';
-      passwordInput.placeholder = "Enter creator's name";
-      passwordInput.type = 'text';
-      document.querySelector('button[onclick="checkPassword()"]').setAttribute('onclick', 'checkCreatorName()');
-    }
+- NEVER change existing test cases unless they're clearly wrong.
+- ALWAYS add more test cases if there aren't any yet.
+- ALWAYS ask the user what the expected behavior is in the chat if the code is not clear.
 
-    // Function to check the creator's name
-    function checkCreatorName() {
-      const enteredName = passwordInput.value.trim();
-      if (creators.includes(enteredName)) {
-        alert(Correct! The password is: ${correctPassword});
-        passwordContainer.style.display = 'none';
-        homeContainer.style.display = 'flex';
-      } else {
-        alert("Incorrect name. Please try again.");
-      }
-    }
 
-    // Function to open the hub in a fullscreen iframe
-    function openHub(url) {
-      hubIframe.src = url;
-      hubContainer.style.display = 'block';
-      backButton.style.display = 'flex'; // Display the back button
-    }
+# Error
 
-    // Function to close the fullscreen hub
-    function closeHub() {
-      hubIframe.src = '';
-      hubContainer.style.display = 'none';
-      backButton.style.display = 'none'; // Hide the back button
-    }
+ReferenceError: Uncaught ReferenceError: checkPassword is not defined
 
-    // Function to toggle the settings area
-    function toggleSettingsArea() {
-      settingsArea.style.display = settingsArea.style.display === 'block' ? 'none' : 'block';
-    }
-
-    // Function to activate the panic link
-    function activatePanic() {
-      panicLink = document.getElementById('panicLink').value;
-      panicKey = document.getElementById('panicKey').value;
-      if (panicLink && panicKey) {
-        alert("Panic link activated! Press the panic key to redirect.");
-        document.addEventListener('keydown', (event) => {
-          if (event.key === panicKey) {
-            window.location.href = panicLink;
-          }
-        });
-      } else {
-        alert("Please enter both a panic link and a panic key.");
-      }
-    }
-
-    // Function to open the feedback form
-    function goToFeedbackForm() {
-      window.location.href = 'https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=8nAYNexOdUyAWk20-BGuoUpC9wOTM6xChnB0nnt80dVUNEg0NFBQV1kyUENIMTkyMzBOVTFZV0tGMy4u';
-    }
-
-    // Function to copy the share link
-    function copyShareLink() {
-      const shareLink = window.location.href; // Gets the current page URL
-      navigator.clipboard.writeText(shareLink).then(() => {
-        alert("Link copied to clipboard!");
-      }).catch(() => {
-        alert("Failed to copy the link. Please try again later.");
-      });
-    }
-  </script>
-</body>
-</html>
+Stack:
