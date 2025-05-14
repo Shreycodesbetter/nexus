@@ -216,21 +216,7 @@
     <button id="settingsButton" onclick="toggleSettingsArea()">⚙️</button>
     <div class="container">
       <h1>Welcome to Nexus</h1>
-      <button class="hub-button" onclick="openHub('https://iamsteve.raspberryip.com/')">
-        <span class="button-icon">🎓</span> Educational Hub
-      </button>
-      <button class="hub-button" onclick="openHub('https://canvas-login-instructure.github.io/')">
-        <span class="button-icon">📘</span> Canvas Hub
-      </button>
-      <button class="hub-button" onclick="openHub('https://coderkid4.github.io/nova/chat.html')">
-        <span class="button-icon">💬</span> Chat Room
-      </button>
-      <button class="hub-button" onclick="openHub('https://rovenshah.com')">
-        <span class="button-icon">📈</span> Crypto Tracker
-      </button>
-      <button class="hub-button" onclick="openHub('https://gn-math.github.io')">
-        <span class="button-icon">➕</span> Gn Math
-      </button>
+      <!-- Buttons for different hubs -->
     </div>
   </div>
 
@@ -246,12 +232,6 @@
     <input type="text" id="panicKey" placeholder="Enter Panic Key" />
     <button id="activatePanic" onclick="activatePanic()">
       <span class="button-icon">🚨</span> Activate Panic
-    </button>
-    <button id="feedbackButton" onclick="goToFeedbackForm()">
-      <span class="button-icon">✍️</span> Feedback Form
-    </button>
-    <button id="shareButton" onclick="copyShareLink()">
-      <span class="button-icon">🔗</span> Share Link
     </button>
   </div>
 
@@ -285,11 +265,7 @@
     }
 
     function toggleSettingsArea() {
-      if (settingsArea.style.display === 'none' || settingsArea.style.display === '') {
-        settingsArea.style.display = 'block';
-      } else {
-        settingsArea.style.display = 'none';
-      }
+      settingsArea.style.display = settingsArea.style.display === 'block' ? 'none' : 'block';
     }
 
     function openHub(url) {
@@ -307,24 +283,18 @@
     function activatePanic() {
       panicLink = panicLinkInput.value;
       panicKey = panicKeyInput.value;
+
       if (panicLink && panicKey) {
+        document.addEventListener('keydown', (event) => {
+          if (event.key === panicKey) {
+            window.location.href = panicLink;
+          }
+        });
+
         alert(`Panic mode set.\nKey: ${panicKey}\nLink: ${panicLink}`);
       } else {
         alert('Please enter both a Panic Link and Panic Key.');
       }
-    }
-
-    function goToFeedbackForm() {
-      window.open('https://forms.gle/your-feedback-link', '_blank'); // Replace this
-    }
-
-    function copyShareLink() {
-      const shareText = window.location.href;
-      navigator.clipboard.writeText(shareText).then(() => {
-        alert('Share link copied to clipboard!');
-      }).catch(() => {
-        alert('Failed to copy share link.');
-      });
     }
   </script>
 </body>
